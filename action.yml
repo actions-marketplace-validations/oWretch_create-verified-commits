@@ -1,5 +1,5 @@
 name: 'Create Verified Commit and Tag'
-description: 'Create GitHub-verified commits and annotated tags via the GraphQL API. Works on any runner OS — no Docker, no GPG keys.'
+description: 'Create GitHub-verified commits and annotated tags via GraphQL. JavaScript action (any OS). Supports glob file filters and commit-if-changed.'
 author: 'oWretch'
 
 branding:
