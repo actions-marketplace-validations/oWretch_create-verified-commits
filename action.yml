@@ -1,0 +1,63 @@
+name: 'Create Verified Commit and Tag'
+description: 'Create GitHub-verified commits and annotated tags via the GraphQL API. Works on any runner OS — no Docker, no GPG keys.'
+author: 'oWretch'
+
+branding:
+  icon: 'git-commit'
+  color: 'purple'
+
+inputs:
+  token:
+    description: 'GitHub token (GITHUB_TOKEN or GitHub App installation token) with contents:write permission'
+    required: true
+
+  commit-message:
+    description: 'Commit message. First line becomes the headline; remaining lines become the body.'
+    required: true
+
+  ref:
+    description: |
+      Target branch name to commit to (e.g. main, feature/x).
+      Auto-detected from the event context when omitted:
+      - pull_request: uses the PR head branch
+      - push/workflow_dispatch/schedule: uses the branch from GITHUB_REF
+      Tag events and fork PRs are not supported.
+    required: false
+    default: ''
+
+  files:
+    description: |
+      Multiline list of glob patterns to filter which changed files to include.
+      Patterns are matched against paths reported by git status — not the filesystem.
+      When omitted, all workspace changes detected by git status are included.
+    required: false
+    default: ''
+
+  tag-name:
+    description: 'Annotated tag name to create (e.g. v1.0.0). Omit to skip tagging.'
+    required: false
+    default: ''
+
+  tag-message:
+    description: 'Annotated tag message. Defaults to the commit message when omitted.'
+    required: false
+    default: ''
+
+  fail-on-empty:
+    description: 'Fail the action if no changed files are detected. Set to false for commit-if-changed patterns.'
+    required: false
+    default: 'true'
+
+outputs:
+  commit-sha:
+    description: 'SHA of the created commit. Empty if no changes were committed.'
+
+  tag-sha:
+    description: 'SHA of the created tag object. Empty if no tag was created.'
+
+  committed:
+    description: 'true if a commit was created, false if the changeset was empty and fail-on-empty is false.'
+
+runs:
+  using: 'node24'
+  main: 'dist/index.js'

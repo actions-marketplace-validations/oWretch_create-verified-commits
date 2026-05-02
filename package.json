@@ -1,0 +1,37 @@
+{
+  "name": "create-signed-commit",
+  "version": "1.0.0",
+  "description": "GitHub Action to create a signed commit and optionally a signed tag using a GitHub App token.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/main.ts --license licenses.txt",
+    "format": "prettier --write \"**/*.{ts,json,yml,yaml,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,json,yml,yaml,md}\"",
+    "lint": "eslint src tests",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/exec": "^3.0.0",
+    "@actions/glob": "^0.7.0",
+    "minimatch": "^10.0.1"
+  },
+  "devDependencies": {
+    "@actions/github": "^9.1.1",
+    "@commitlint/cli": "^20.5.3",
+    "@commitlint/config-conventional": "^20.5.3",
+    "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vercel/ncc": "^0.38.3",
+    "eslint": "^10.3.0",
+    "prettier": "^3.5.3",
+    "semantic-release": "^25.0.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.1",
+    "vitest": "^4.1.5"
+  }
+}
