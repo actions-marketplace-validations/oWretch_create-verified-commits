@@ -10,6 +10,8 @@
 //      GraphQL API (signed by the configured GitHub App)
 //   3. Syncs local HEAD to that new remote commit so @semantic-release/github
 //      creates the version tag and GitHub release on the signed commit
+//   4. Updates context.nextRelease.gitHead so @semantic-release/github tags
+//      the signed commit rather than the pre-release HEAD
 //
 // Required env var: RELEASE_APP_TOKEN — the GitHub App installation token.
 // Set via the release workflow step's `env:` block.
@@ -47,6 +49,13 @@ async function prepare(_pluginConfig, context) {
   logger.log('Syncing local HEAD to signed commit...')
   execFileSync('git', ['fetch', 'origin', 'main'], { cwd, stdio: 'inherit' })
   execFileSync('git', ['reset', '--hard', 'origin/main'], { cwd, stdio: 'inherit' })
+
+  // Update nextRelease.gitHead so @semantic-release/github tags the signed
+  // commit (on origin/main after reset) rather than the pre-release HEAD that
+  // semantic-release captured before running prepare hooks.
+  const newHead = execFileSync('git', ['rev-parse', 'HEAD'], { cwd }).toString().trim()
+  logger.log(`Updated release HEAD: ${nextRelease.gitHead} → ${newHead}`)
+  nextRelease.gitHead = newHead
 }
 
 module.exports = { prepare }
