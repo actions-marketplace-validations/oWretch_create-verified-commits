@@ -1,0 +1,33 @@
+name: Retitle Dependabot Security PRs
+
+on:
+  pull_request_target:
+    types: [opened, labeled]
+
+# Minimal permissions: only PR write needed, no code checkout.
+permissions:
+  pull-requests: write
+
+jobs:
+  retitle:
+    name: Retitle security PR
+    runs-on: ubuntu-latest
+    # Check PR author (not github.actor, which is the label-applier on 'labeled' events).
+    if: >
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      contains(github.event.pull_request.labels.*.name, 'security')
+    steps:
+      - name: Update PR title to use fix prefix
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURRENT_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [[ "$CURRENT_TITLE" == chore\(* ]]; then
+            NEW_TITLE="fix(${CURRENT_TITLE#chore(}"
+            gh pr edit "${{ github.event.pull_request.number }}" \
+              --title "$NEW_TITLE" \
+              --repo "${{ github.repository }}"
+            echo "Retitled: $CURRENT_TITLE -> $NEW_TITLE"
+          else
+            echo "Title does not start with 'chore(', no change needed: $CURRENT_TITLE"
+          fi
