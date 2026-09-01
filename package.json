@@ -1,6 +1,6 @@
 {
   "name": "create-signed-commit",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "GitHub Action to create a signed commit and optionally a signed tag using a GitHub App token.",
   "main": "dist/index.js",
   "scripts": {
@@ -10,28 +10,29 @@
     "lint": "eslint src tests",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "node node_modules/typescript-latest/bin/tsc --noEmit"
   },
   "license": "Apache-2.0",
   "dependencies": {
     "@actions/core": "^3.0.1",
     "@actions/exec": "^3.0.0",
     "@actions/glob": "^0.7.0",
-    "minimatch": "^10.0.1"
+    "minimatch": "^10.2.6"
   },
   "devDependencies": {
     "@actions/github": "^9.1.1",
-    "@commitlint/cli": "^21.0.1",
-    "@commitlint/config-conventional": "^21.0.1",
-    "@types/node": "^25.9.1",
-    "@typescript-eslint/eslint-plugin": "^8.59.4",
-    "@typescript-eslint/parser": "^8.59.4",
-    "@vercel/ncc": "^0.38.3",
-    "eslint": "^10.4.0",
-    "prettier": "^3.5.3",
-    "semantic-release": "^25.0.3",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.4",
-    "vitest": "^4.1.7"
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@types/node": "^26.1.2",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.66.0",
+    "@vercel/ncc": "^0.44.1",
+    "eslint": "^10.8.0",
+    "prettier": "^3.9.6",
+    "semantic-release": "^25.0.9",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript-latest": "npm:typescript@^7.0.2",
+    "typescript-eslint": "^8.67.0",
+    "vitest": "^4.1.10"
   }
 }
